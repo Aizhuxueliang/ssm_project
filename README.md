@@ -1,2 +1,2 @@
-# SSMDemo
-spring+springmvc+mybatis模板
+# ssm_project
+spring+springmvc+mybatis
