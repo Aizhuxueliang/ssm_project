@@ -10,36 +10,43 @@ public interface UserDao {
      * @param user user
      * @return 返回码
      */
-    public Integer createUser(User user);
+    public String createUser(User user);
 
     /**
-     * 根据 userName 查询 User
+     * 根据 cardNo 查询用户 cardNo
+     * @param cardNo 证件号码
+     * @return 返回码
+     */
+    public String queryUserByCardNo(String cardNo);
+
+    /**
+     * 分页查询全部 User
+     * @param startRows 起始页
+     * @return List<User>
+     */
+    public List<User> queryUserPage(Integer startRows);
+
+    /**
+     * 根据 userName 模糊查询 User
      * @param userName 用户名
      * @param startRows 起始页
      * @return List<User>
      */
-    public List<User> retrieveUser(String userName, Integer startRows);
+    public List<User> retrieveUserByName(String userName, Integer startRows);
 
     /**
      * 更新 User
-     * @param userName 用户名
+     * @param cardNo 证件号码
      * @return 返回码
      */
-    public Integer updateUser(String userName);
+    public String updateUserByCardNo(String cardNo);
 
     /**
      * 删除 User
-     * @param userName 用户名
+     * @param cardNo 证件号码
      * @return 返回码
      */
-    public Integer deleteUser(String userName);
-
-    /**
-     * 查询全部 User
-     * @param startRows 起始页
-     * @return List<User>
-     */
-    public List<User> queryPage(Integer startRows);
+    public String deleteUserByCardNo(String cardNo);
 
     /**
      * 查询用户个数

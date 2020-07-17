@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.UserDao">
+
+    <resultMap type="User" id="userMap">
+        <result property="userId" column="user_id" /><!--用户id-->
+        <result property="cardType" column="card_type" /><!--证件类型-->
+        <result property="cardNo" column="card_no" /><!--证件号码-->
+        <result property="userName" column="user_name" /><!--用户姓名-->
+        <result property="userSex" column="user_sex" /><!--用户性别-->
+        <result property="userAge" column="user_age" /><!--用户年龄-->
+        <result property="userRole" column="user_role" /><!--用户角色-->
+    </resultMap>
+
+    <!--添加用户信息-->
+    <insert id="createUser">
+		insert into User(user_id, card_no, user_name, user_sex, user_age, user_role)
+		values(#{userId}, #{cardType}, #{cardNo}, #{userName}, #{userSex}, #{userAge}, #{userRole})
+	</insert>
+
+	<!--根据 cardNo 查询用户 cardNo-->
+	<select id="queryUserByCardNo" parameterType="String" resultMap="String">
+		SELECT card_no FROM USER WHERE card_no = #{cardNo}
+	</select>
+
+	<!--查询全部用户信息-->
+	<select id="queryUserPage" parameterType="Integer" resultMap="userMap">
+		SELECT * FROM USER
+			order by user_id desc
+			limit #{startRows},5
+	</select>
+
+	<!--根据姓名模糊查询用户信息-->
+	<select id="retrieveUserByName" parameterType="String" resultMap="userMap">
+		SELECT * FROM USER
+			where user_name like concat(concat('%',#{userName}),'%')
+			order by user_id desc
+			limit #{startRows},5
+	</select>
+
+    <!--根据 cardNo 更新用户信息-->
+    <update id="updateUserByCardNo" parameterType="com.example.entity.User">
+		update USER set
+			user_id = #{userId},
+			card_type = #{cardType},
+			user_name = #{userName},
+			user_sex = #{userSex},
+			user_age = #{userAge},
+			user_role = #{userRole}
+		where
+			card_no = #{cardNo}
+	</update>
+
+    <!--根据 cardNo 删除用户-->
+    <delete id="deleteUserByCardNo" parameterType="Integer">
+		DELETE FROM USER WHERE card_no = #{cardNo}
+	</delete>
+
+	<!--查询用户个数-->
+	<select id="getRowCount" resultType="Integer">
+		select count(*) from USER
+	</select>
+
+</mapper>
