@@ -15,16 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("user")
 public class UserController {
 
-
-
-
     @Autowired
     private UserService userService;
 
-    @RequestMapping("list")
+    @RequestMapping("/queryUserPage")
     @ResponseBody
-    public List<User> list(Model model) {
-        return userService.getAllStu();
+    public List<User> queryUserPage(Model model) {
+        return userService.queryUserPage();
     }
 
     @RequestMapping("goToAdd")

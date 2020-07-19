@@ -2,76 +2,125 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.UserMapper" >
     <resultMap id="BaseResultMap" type="com.example.pojo.User" >
-        <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="name" property="name" jdbcType="VARCHAR" />
-        <result column="age" property="age" jdbcType="INTEGER" />
+        <id property="userId" column="user_id" jdbcType="VARCHAR" /><!--用户id-->
+        <result property="cardType" column="card_type" jdbcType="VARCHAR" /><!--证件类型-->
+        <result property="cardNo" column="card_no" jdbcType="VARCHAR" /><!--证件号码-->
+        <result property="userName" column="user_name" jdbcType="VARCHAR" /><!--用户姓名-->
+        <result property="userSex" column="user_sex" jdbcType="VARCHAR" /><!--用户性别-->
+        <result property="userAge" column="user_age" jdbcType="VARCHAR" /><!--用户年龄-->
+        <result property="userRole" column="user_role" jdbcType="VARCHAR" /><!--用户角色-->
     </resultMap>
+
     <sql id="Base_Column_List" >
-    id, name, age
-  </sql>
+        user_id, card_no, card_type, user_name, user_sex, user_age, user_role
+    </sql>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select
         <include refid="Base_Column_List" />
         from user
-        where id = #{id,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=INTEGER}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+        delete from user
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+
     <insert id="insert" parameterType="com.example.pojo.User" >
-    insert into user (id, name, age
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}
-      )
-  </insert>
+        insert into User(user_id, card_no, card_type, user_name, user_sex, user_age, user_role)
+		values(#{userId}, #{cardType}, #{cardNo}, #{userName}, #{userSex}, #{userAge}, #{userRole})
+    </insert>
+
     <insert id="insertSelective" parameterType="com.example.pojo.User" >
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
-                id,
+            <if test="userId != null" >
+                user_id,
             </if>
-            <if test="name != null" >
-                name,
+            <if test="cardNo != null" >
+                card_no,
             </if>
-            <if test="age != null" >
-                age,
+             <if test="cardType != null" >
+                card_type,
+            </if>
+            <if test="userName != null" >
+                user_name,
+            </if>
+            <if test="userSex != null" >
+                user_sex,
+            </if>
+            <if test="userAge != null" >
+                user_age,
+            </if>
+            <if test="userRole != null" >
+                user_role,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
-                #{id,jdbcType=INTEGER},
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
             </if>
-            <if test="name != null" >
-                #{name,jdbcType=VARCHAR},
+            <if test="cardNo != null" >
+                card_no = #{cardType,jdbcType=VARCHAR},
             </if>
-            <if test="age != null" >
-                #{age,jdbcType=INTEGER},
+            <if test="cardType != null" >
+                card_type = #{cardType,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null" >
+                user_sex = #{userSex,jdbcType=VARCHAR},
+            </if>
+            <if test="userAge != null" >
+                user_age = #{userAge,jdbcType=VARCHAR},
+            </if>
+            <if test="userRole != null" >
+                user_role = #{userRole,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
+
     <update id="updateByPrimaryKeySelective" parameterType="com.example.pojo.User" >
         update user
         <set >
-            <if test="name != null" >
-                name = #{name,jdbcType=VARCHAR},
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
             </if>
-            <if test="age != null" >
-                age = #{age,jdbcType=INTEGER},
+            <if test="cardType != null" >
+                card_type = #{cardType,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null" >
+                user_sex = #{userSex,jdbcType=VARCHAR},
+            </if>
+            <if test="userAge != null" >
+                user_age = #{userAge,jdbcType=VARCHAR},
+            </if>
+            <if test="userRole != null" >
+                user_role = #{userRole,jdbcType=VARCHAR}
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where
+            card_no = #{cardNo,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.example.pojo.User" >
-    update user
-    set name = #{name,jdbcType=VARCHAR},
-      age = #{age,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
 
-    <select id="getAllStu" resultMap="BaseResultMap">
+    <update id="updateByPrimaryKey" parameterType="com.example.pojo.User">
+         update USER set
+			user_id = #{userId,jdbcType=VARCHAR},
+			card_type = #{cardType,jdbcType=VARCHAR},
+			user_name = #{userName,jdbcType=VARCHAR},
+			user_sex = #{userSex,jdbcType=VARCHAR},
+			user_age = #{userAge,jdbcType=VARCHAR},
+			user_role = #{userRole,jdbcType=VARCHAR}
+		 where
+			card_no = #{cardNo,jdbcType=VARCHAR}
+    </update>
 
+    <select id="queryUserPage" resultMap="BaseResultMap">
         select  * from  user
-
     </select>
 </mapper>

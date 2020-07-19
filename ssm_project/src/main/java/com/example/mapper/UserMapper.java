@@ -7,7 +7,7 @@ import com.example.pojo.User;
 
 public interface UserMapper {
 
-    public List<User> getAllStu();
+    public List<User> queryUserPage();
 
     public User getById(int id);
 

@@ -5,7 +5,8 @@ import java.util.List;
 import com.example.pojo.User;
 
 public interface UserService {
-    public List<User> getAllStu();
+
+    List<User> queryUserPage();
 
     void insert(User user);
 

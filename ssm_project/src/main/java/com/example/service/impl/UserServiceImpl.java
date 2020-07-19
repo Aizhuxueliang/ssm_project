@@ -16,8 +16,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public List<User> getAllStu() {
-        return userMapper.getAllStu();
+    public List<User> queryUserPage() {
+        return userMapper.queryUserPage();
     }
 
     @Override
