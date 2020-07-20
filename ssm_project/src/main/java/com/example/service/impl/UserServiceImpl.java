@@ -16,8 +16,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public List<User> queryUserPage() {
-        return userMapper.queryUserPage();
+    public List<User> queryUserPage(Integer startRows) {
+        return userMapper.queryUserPage(startRows);
     }
 
     @Override

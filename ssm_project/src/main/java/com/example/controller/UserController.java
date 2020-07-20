@@ -20,8 +20,11 @@ public class UserController {
 
     @RequestMapping("/queryUserPage")
     @ResponseBody
-    public List<User> queryUserPage(Model model) {
-        return userService.queryUserPage();
+    public List<User> queryUserPage(Integer page) {
+        int pageNow = page == null ? 1 : page;
+        int pageSize = 5;
+        int startRows = pageSize*(pageNow-1);
+        return userService.queryUserPage(startRows);
     }
 
     @RequestMapping("goToAdd")

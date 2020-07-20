@@ -1,7 +1,7 @@
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
-  Date: 2018/6/9
+  Date: 2020/07/20
   Time: 15:50
   To change this template use File | Settings | File Templates.
 --%>
@@ -12,6 +12,6 @@
 </head>
 <body>
 欢迎光临
-<a href="/user/list">点击跳转到列表页面</a>
+<a href="/ssm_project_war_exploded/user/queryUserPage">点击跳转到列表页面</a>
 </body>
 </html>

@@ -6,7 +6,7 @@ import com.example.pojo.User;
 
 public interface UserService {
 
-    List<User> queryUserPage();
+    List<User> queryUserPage(Integer startRows);
 
     void insert(User user);
 
