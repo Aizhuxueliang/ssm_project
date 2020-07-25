@@ -8,6 +8,8 @@ public interface UserService {
 
     List<User> queryUserPage(Integer startRows);
 
+    Integer getRowCount();
+
     void insert(User user);
 
     User selectByPrimaryKey(Integer id);

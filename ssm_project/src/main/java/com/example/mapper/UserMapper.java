@@ -7,10 +7,20 @@ import com.example.pojo.User;
 
 public interface UserMapper {
 
-    public List<User> queryUserPage(Integer startRows);
+    /**
+     * 分页查询User
+     * @param startRows 起始页
+     * @return List<User>
+     */
+    List<User> queryUserPage(Integer startRows);
 
-    public User getById(int id);
+    /**
+     * 查询User个数
+     * @return
+     */
+    Integer getRowCount();
 
+    User getById(int id);
 
     int deleteByPrimaryKey(Integer id);
 

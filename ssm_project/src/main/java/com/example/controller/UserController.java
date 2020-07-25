@@ -27,11 +27,10 @@ public class UserController {
         return userService.queryUserPage(startRows);
     }
 
-    @RequestMapping("goToAdd")
-    public String goToAdd() {
-
-        return "add";
-
+    @RequestMapping("/getRowCount")
+    @ResponseBody
+    public Integer getRowCount() {
+        return userService.getRowCount();
     }
 
     @RequestMapping("add")

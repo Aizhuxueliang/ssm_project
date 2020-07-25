@@ -120,9 +120,16 @@
 			card_no = #{cardNo,jdbcType=VARCHAR}
     </update>
 
-    <select id="queryUserPage" resultMap="BaseResultMap" parameterType="Integer">
+    <!--分页查询用户-->
+    <select id="queryUserPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select  * from  user
             order by user_id desc
 			limit #{startRows},5
     </select>
+
+    <!--查询用户个数-->
+    <select id="getRowCount" resultType="java.lang.Integer">
+		select count(*) from USER
+	</select>
+
 </mapper>

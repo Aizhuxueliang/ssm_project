@@ -21,6 +21,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Integer getRowCount() {
+        return userMapper.getRowCount();
+    }
+
+    @Override
     public void insert(User user) {
         userMapper.insert(user);
     }
