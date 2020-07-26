@@ -26,6 +26,12 @@ public interface UserService {
      */
     Integer createUser(User user);
 
+    /**
+     * 根据 userId 删除用户
+     * @return 返回码
+     */
+    Integer deleteUserById(String userId);
+
     void insert(User user);
 
     User selectByPrimaryKey(Integer id);

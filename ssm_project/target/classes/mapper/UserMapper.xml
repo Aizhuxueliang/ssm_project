@@ -35,19 +35,18 @@
 		values(#{userId}, #{cardType}, #{cardNo}, #{userName}, #{userSex}, #{userAge}, #{userRole})
     </insert>
 
+    <!--根据 user_id 删除用户-->
+    <delete id="deleteUserById" parameterType="String" >
+        delete from user
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select
         <include refid="Base_Column_List" />
         from user
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
-
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-        delete from user
-        where user_id = #{userId,jdbcType=VARCHAR}
-    </delete>
-
-
 
     <insert id="insertSelective" parameterType="com.example.pojo.User" >
         insert into user

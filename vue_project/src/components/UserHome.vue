@@ -344,8 +344,13 @@
         };
       },
 
+      /**
+       * 根据 userId 删除用户
+       * @param index
+       * @param row
+       */
       handleDelete(index, row) {
-        console.log(index, row);
+        //console.log(index, row);
         this.$confirm('删除操作, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -356,24 +361,23 @@
           });
           this.axios({
             method: 'post',
-            url:'/delete',
+            url:'/ssm_project_war_exploded/user/deleteUserById',
             data:postData
           }).then(response =>
           {
-            this.getPages();
-            this.currentPage = 1;
-            this.axios.post('/page').then(response =>
-            {
-              this.tableData = response.data;
-            }).catch(error =>
-            {
-              console.log(error);
-            });
+            this.getRowCount();
+            if(this.total%5==1 && this.currentPage >= 1){
+              if(this.total/5<this.currentPage){
+                this.currentPage = this.currentPage-1;
+              }
+            }
+            this.handlePageChange();
+
             this.$message({
               type: 'success',
               message: '删除成功!'
             });
-            console.log(response);
+            //console.log(response);
           }).catch(error =>
           {
             console.log(error);

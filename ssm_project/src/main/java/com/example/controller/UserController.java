@@ -43,6 +43,12 @@ public class UserController {
         return userService.createUser(user);
     }
 
+    @RequestMapping("/deleteUserById")
+    @ResponseBody
+    public Integer deleteUserById(String userId) {
+        return userService.deleteUserById(userId);
+    }
+
     @RequestMapping("add")
     public String add(User user) {
 
