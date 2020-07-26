@@ -12,8 +12,28 @@
     </resultMap>
 
     <sql id="Base_Column_List" >
-        user_id, card_no, card_type, user_name, user_sex, user_age, user_role
+        user_id, card_type, card_no, user_name, user_sex, user_age, user_role
     </sql>
+
+    <!--分页查询用户-->
+    <select id="queryUserPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+            <include refid="Base_Column_List" />
+        from user
+            order by user_id desc
+			limit #{startRows,jdbcType=INTEGER},5
+    </select>
+
+    <!--查询用户个数-->
+    <select id="getRowCount" resultType="java.lang.Integer">
+		select count(*) from USER
+	</select>
+
+    <!--添加用户信息-->
+    <insert id="createUser" parameterType="com.example.pojo.User" >
+        insert into User(user_id, card_type, card_no, user_name, user_sex, user_age, user_role)
+		values(#{userId}, #{cardType}, #{cardNo}, #{userName}, #{userSex}, #{userAge}, #{userRole})
+    </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select
@@ -27,10 +47,7 @@
         where user_id = #{userId,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insert" parameterType="com.example.pojo.User" >
-        insert into User(user_id, card_no, card_type, user_name, user_sex, user_age, user_role)
-		values(#{userId}, #{cardType}, #{cardNo}, #{userName}, #{userSex}, #{userAge}, #{userRole})
-    </insert>
+
 
     <insert id="insertSelective" parameterType="com.example.pojo.User" >
         insert into user
@@ -119,17 +136,5 @@
 		 where
 			card_no = #{cardNo,jdbcType=VARCHAR}
     </update>
-
-    <!--分页查询用户-->
-    <select id="queryUserPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select  * from  user
-            order by user_id desc
-			limit #{startRows},5
-    </select>
-
-    <!--查询用户个数-->
-    <select id="getRowCount" resultType="java.lang.Integer">
-		select count(*) from USER
-	</select>
 
 </mapper>

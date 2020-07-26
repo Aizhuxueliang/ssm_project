@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Random;
 
 import com.example.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,15 @@ public class UserController {
     @ResponseBody
     public Integer getRowCount() {
         return userService.getRowCount();
+    }
+
+    @RequestMapping("/createUser")
+    @ResponseBody
+    public Integer createUser(User user) {
+        Random random = new Random();
+        Integer number = random.nextInt(9000) + 1000;
+        user.setUserId(System.currentTimeMillis() + String.valueOf(number));
+        return userService.createUser(user);
     }
 
     @RequestMapping("add")

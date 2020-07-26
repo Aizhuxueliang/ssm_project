@@ -27,7 +27,7 @@
         <el-button
           class="el-icon-circle-plus-outline"
           type="text"
-          @click="dialogVisible = true">添加
+          @click="dialogAdd = true">添加
         </el-button>
       </el-form-item>
     </el-form>
@@ -107,26 +107,53 @@
       </el-table-column>
     </el-table>
 
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm" size="medium">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm" size="medium">
       <el-dialog
         title="添加"
         :append-to-body='true'
-        :visible.sync="dialogVisible"
+        :visible.sync="dialogAdd"
         :before-close="handleClose">
-        <el-input type="hidden" v-model="ruleForm.userId"/>
-        <el-form-item label="时间" prop="userDate">
-          <el-date-picker type="datetime" placeholder="选择日期" v-model="ruleForm.userDate" style="width: 100%;"></el-date-picker>
+        <el-form-item label="证件类型">
+          <el-select v-model="ruleForm.cardType" placeholder="请选择证件类型" prop="cardType">
+            <el-option label="身份证" value="身份证"></el-option>
+            <el-option label="军官证" value="军官证"></el-option>
+            <el-option label="护照" value="护照"></el-option>
+            <el-option label="港澳居民通行证" value="港澳居民通行证"></el-option>
+            <el-option label="台湾往来大陆通行证" value="台湾往来大陆通行证"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="姓名" prop="userName">
+        <el-form-item label="证件号码">
+          <el-input v-model="ruleForm.cardNo"></el-input>
+        </el-form-item>
+        <el-form-item label="用户姓名">
           <el-input v-model="ruleForm.userName"></el-input>
         </el-form-item>
-        <el-form-item label="住址" prop="userAddress">
-          <el-input v-model="ruleForm.userAddress"></el-input>
+        <el-form-item label="用户性别">
+          <el-radio-group v-model="ruleForm.userSex">
+            <el-radio label="男"></el-radio>
+            <el-radio label="女"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="用户年龄">
+          <el-slider v-model="ruleForm.userAge" show-input></el-slider>
+        </el-form-item>
+        <el-form-item label="用户角色">
+          <el-select v-model="ruleForm.userRole" placeholder="请选择用户角色" prop="userRole">
+            <el-option label="国家机关、党群组织、企业、事业单位负责人" value="国家机关、党群组织、企业、事业单位负责人"></el-option>
+            <el-option label="专业技术人员" value="专业技术人员"></el-option>
+            <el-option label="办事人员和有关人员" value="办事人员和有关人员"></el-option>
+            <el-option label="商业、服务业人员" value="商业、服务业人员"></el-option>
+            <el-option label="农、林、牧、渔、水利业生产人员" value="农、林、牧、渔、水利业生产人员"></el-option>
+            <el-option label="生产、运输设备操作人员及有关人员" value="生产、运输设备操作人员及有关人员"></el-option>
+            <el-option label="军人" value="军人"></el-option>
+            <el-option label="不便分类的其他从业人员" value="不便分类的其他从业人员"></el-option>
+            <el-option label="未知" value="未知"></el-option>
+          </el-select>
         </el-form-item>
 
         <span slot="footer" class="dialog-footer">
-            <el-button @click="cancel()" size="medium">取 消</el-button>
-            <el-button @click="addUser()" type="primary" size="medium">确 定</el-button>
+            <el-button @click="emptyUserData()" size="medium">取 消</el-button>
+            <el-button @click="addUser('ruleForm')" type="primary" size="medium">确 定</el-button>
           </span>
       </el-dialog>
     </el-form>
@@ -149,25 +176,23 @@
         </el-form-item>
 
         <span slot="footer" class="dialog-footer">
-            <el-button @click="cancel()" size="medium">取 消</el-button>
+            <el-button @click="emptyUserData()" size="medium">取 消</el-button>
             <el-button @click="updateUser()" type="primary" size="medium">确 定</el-button>
           </span>
       </el-dialog>
     </el-form>
     <br>
 
-    <div class="pages">
-      <el-pagination
-        background
-        :disabled = "disablePage"
-        :current-page.sync="currentPage"
-        small
-        layout="prev, pager, next"
-        :page-size="pageSize"
-        :total="total"
-        @current-change="handleCurrentChange">
-      </el-pagination>
-    </div>
+    <el-pagination
+      background
+      :disabled = "disablePage"
+      :current-page.sync="currentPage"
+      small
+      layout="prev, pager, next"
+      :page-size="pageSize"
+      :total="total"
+      @current-change="handlePageChange">
+    </el-pagination>
   </div>
 </template>
 
@@ -175,36 +200,25 @@
   export default {
     data() {
       return {
-
         ruleForm: {
-          userId: '',//用户id
-          cardType: '',//证件类型
-          cardNo: '',//证件号码
-          userName: '',//用户姓名
-          userSex: '',//用户性别
-          userAge: '',//用户年龄
-          userRole: ''//用户角色
+          userId: null,//用户id
+          cardType: null,//证件类型
+          cardNo: null,//证件号码
+          userName: null,//用户姓名
+          userSex: null,//用户性别
+          userAge: 25,//用户年龄
+          userRole: null//用户角色
         },
-        rules: {
-          userName: [
-            { required: true, message: '请输入姓名', trigger: 'blur' },
-            { min: 2, max: 7, message: '长度在 2 到 7 个字符', trigger: 'blur' }
-          ],
-          userAddress: [
-            { required: true, message: '请输入住址', trigger: 'blur' },
-            { min: 5, message: '长度大于 5 个字符', trigger: 'blur' }
-          ],
-        },
+        rules: {},
         tableData: [],
         search: '',
-        dialogVisible: false,
+        dialogAdd: false,
         dialogUpdate: false,
         pageSize: 5,
         currentPage: 1,
         total: 0,
         disablePage: false
-      }
-
+      };
     },
 
     created() {
@@ -227,10 +241,109 @@
     },
 
     methods: {
+      /**
+       * 分页
+       */
+      handlePageChange() {
+        //console.log(`当前页: ${this.currentPage}`);
+        let postData = this.qs.stringify({
+          page: this.currentPage
+        });
+        this.axios({
+          method: 'post',
+          url:'/ssm_project_war_exploded/user/queryUserPage',
+          data:postData
+        }).then(response =>
+        {
+          this.tableData = response.data;
+        }).catch(error =>
+        {
+          console.log(error);
+        });
+      },
+
+      /**
+       * 添加用户
+       */
+      addUser() {
+        if(this.ruleForm.cardType == null || this.ruleForm.cardNo == null || this.ruleForm.userName == null || this.ruleForm.userSex == null || this.ruleForm.userRole == null){
+          this.$alert('用户信息不完整请检查', '温馨提示', {
+            confirmButtonText: '确定'
+          });
+          return;
+        }
+        let postData = this.qs.stringify({
+          cardType: this.ruleForm.cardType,//证件类型
+          cardNo: this.ruleForm.cardNo,//证件号码
+          userName: this.ruleForm.userName,//用户姓名
+          userSex: this.ruleForm.userSex,//用户性别
+          userAge: this.ruleForm.userAge,//用户年龄
+          userRole: this.ruleForm.userRole,//用户角色
+        });
+        this.axios({
+          method: 'post',
+          url:'/ssm_project_war_exploded/user/createUser',
+          data:postData
+        }).then(response =>
+        {
+          this.handlePageChange();
+          this.getRowCount();
+          this.$message({
+            type: 'success',
+            message: '已添加!'
+          });
+          this.emptyUserData();
+          //console.log(response);
+        }).catch(error =>
+        {
+          console.log(error);
+        });
+      },
+
+      /**
+       * 统计用户个数
+       */
+      getRowCount() {
+        this.axios.post('/ssm_project_war_exploded/user/getRowCount').then(response =>
+        {
+          this.total = response.data;
+        }).catch(error =>
+        {
+          console.log(error);
+        });
+      },
+
       handleEdit(index, row) {
         this.dialogUpdate = true;
         this.ruleForm = Object.assign({}, row); //这句是关键！！！
       },
+
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+            this.emptyUserData();
+          })
+          .catch(_ => {});
+      },
+
+      /**
+       * 清空绑定数据
+       */
+      emptyUserData() {
+        this.dialogAdd = false;
+        this.dialogUpdate = false;
+        this.ruleForm = {
+          userId: null,//用户id
+          cardType: null,//证件类型
+          cardNo: null,//证件号码
+          userName: null,//用户姓名
+          userSex: null,//用户性别
+          userAge: 25,//用户年龄
+          userRole: null//用户角色
+        };
+      },
+
       handleDelete(index, row) {
         console.log(index, row);
         this.$confirm('删除操作, 是否继续?', '提示', {
@@ -273,74 +386,8 @@
           });
         });
       },
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      },
-      handleCurrentChange() {
-        console.log(`当前页: ${this.currentPage}`);
-        let postData = this.qs.stringify({
-          page: this.currentPage
-        });
-        this.axios({
-          method: 'post',
-          url:'/ssm_project_war_exploded/user/queryUserPage',
-          data:postData
-        }).then(response =>
-        {
-          this.tableData = response.data;
-        }).catch(error =>
-        {
-          console.log(error);
-        });
-      },
-      cancel() {
-        this.dialogUpdate = false;
-        this.dialogVisible = false;
-        this.emptyUserData();
-      },
-      emptyUserData(){
-        this.ruleForm = {
-          userName: '',
-          userDate: '',
-          userAddress: ''
-        }
-      },
-      addUser() {
-        let postData = this.qs.stringify({
-          userDate: this.ruleForm.userDate,
-          userName: this.ruleForm.userName,
-          userAddress: this.ruleForm.userAddress
-        });
-        this.axios({
-          method: 'post',
-          url:'/insert',
-          data:postData
-        }).then(response =>
-        {
-          this.axios.post('/page').then(response =>
-          {
-            this.tableData = response.data;
-            this.currentPage = 1;
-            this.$message({
-              type: 'success',
-              message: '已添加!'
-            });
-          }).catch(error =>
-          {
-            console.log(error);
-          });
-          this.getPages();
-          this.dialogVisible = false
-          console.log(response);
-        }).catch(error =>
-        {
-          console.log(error);
-        });
-      },
+
+
       updateUser() {
         let postData = this.qs.stringify({
           userId: this.ruleForm.userId,
@@ -387,15 +434,7 @@
           console.log(error);
         });
       },
-      getPages() {
-        this.axios.post('/rows').then(response =>
-        {
-          this.total = response.data;
-        }).catch(error =>
-        {
-          console.log(error);
-        });
-      },
+
       refreshData() {
         location.reload();
       }
@@ -404,12 +443,5 @@
   }
 </script>
 <style scoped>
-  .search_name{
-    width: 200px;
-  }
-  .pages{
-    margin: 0px;
-    padding: 0px;
-    text-align: right;
-  }
+
 </style>
