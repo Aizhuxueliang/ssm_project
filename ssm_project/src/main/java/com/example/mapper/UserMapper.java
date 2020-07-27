@@ -33,6 +33,12 @@ public interface UserMapper {
      */
     Integer deleteUserById(String userId);
 
+    /**
+     * 根据 userId 更新用户
+     * @return 返回码
+     */
+    Integer updateUserById(User user);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);

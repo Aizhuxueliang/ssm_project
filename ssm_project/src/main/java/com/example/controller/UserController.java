@@ -6,7 +6,6 @@ import java.util.Random;
 import com.example.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.service.UserService;
@@ -49,35 +48,11 @@ public class UserController {
         return userService.deleteUserById(userId);
     }
 
-    @RequestMapping("add")
-    public String add(User user) {
-
-        userService.insert(user);
-        return "redirect:list";
-
-
+    @RequestMapping("/updateUserById")
+    @ResponseBody
+    public Integer updateUserById(User user) {
+        return userService.updateUserById(user);
     }
 
-    @RequestMapping("goToUpdate")
-    public String goToUpdate(Integer id, Model model) {
-
-        User user = userService.selectByPrimaryKey(id);
-        model.addAttribute("stu", user);
-        return "update";
-
-    }
-
-    @RequestMapping("update")
-    public String update(User user) {
-        userService.updateByPrimaryKeySelective(user);
-        return "redirect:list";
-    }
-
-    @RequestMapping("del")
-    public String del(Integer id){
-
-        userService.deleteByPrimaryKey(id);
-        return "redirect:list";
-    }
 
 }

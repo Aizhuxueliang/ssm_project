@@ -32,11 +32,10 @@ public interface UserService {
      */
     Integer deleteUserById(String userId);
 
-    void insert(User user);
+    /**
+     * 根据 userId 更新用户
+     * @return 返回码
+     */
+    Integer updateUserById(User user);
 
-    User selectByPrimaryKey(Integer id);
-
-    void updateByPrimaryKeySelective(User user);
-
-    void deleteByPrimaryKey(Integer id);
 }

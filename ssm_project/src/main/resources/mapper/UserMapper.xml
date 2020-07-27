@@ -98,11 +98,12 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.example.pojo.User" >
+    <!--根据 user_id 更新用户信息-->
+    <update id="updateUserById" parameterType="com.example.pojo.User" >
         update user
         <set >
-            <if test="userId != null" >
-                user_id = #{userId,jdbcType=VARCHAR},
+            <if test="cardNo != null" >
+                card_no = #{cardNo,jdbcType=VARCHAR},
             </if>
             <if test="cardType != null" >
                 card_type = #{cardType,jdbcType=VARCHAR},
@@ -121,7 +122,7 @@
             </if>
         </set>
         where
-            card_no = #{cardNo,jdbcType=VARCHAR}
+            user_id = #{userId,jdbcType=VARCHAR}
     </update>
 
     <update id="updateByPrimaryKey" parameterType="com.example.pojo.User">
