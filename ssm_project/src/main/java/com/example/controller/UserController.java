@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -25,6 +26,15 @@ public class UserController {
         int pageSize = 5;
         int startRows = pageSize*(pageNow-1);
         return userService.queryUserPage(startRows);
+    }
+
+    @RequestMapping("/selectUserPage")
+    @ResponseBody
+    public List<User> selectUserPage(String userName, String userSex, Integer page) {
+        int pageNow = page == null ? 1 : page;
+        int pageSize = 5;
+        int startRows = pageSize*(pageNow-1);
+        return userService.selectUserPage(userName, userSex, startRows);
     }
 
     @RequestMapping("/getRowCount")

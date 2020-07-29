@@ -1,8 +1,10 @@
 package com.example.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.example.pojo.User;
+import org.apache.ibatis.annotations.Param;
 
 
 public interface UserMapper {
@@ -13,6 +15,15 @@ public interface UserMapper {
      * @return List<User>
      */
     List<User> queryUserPage(Integer startRows);
+
+    /**
+     * 分页查询 User 带条件
+     * @param userName
+     * @param userSex
+     * @param startRows
+     * @return
+     */
+    List<User> selectUserPage(@Param("userName")String userName, @Param("userSex")String userSex, @Param("startRows")Integer startRows);
 
     /**
      * 查询 User 个数

@@ -24,6 +24,23 @@
 			limit #{startRows,jdbcType=INTEGER},5
     </select>
 
+    <!--分页查询用户-->
+    <select id="selectUserPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        <where>
+            <if test="userName != null and userName !=''">
+                and userName like concat('%', #{userName}, '%')
+            </if>
+            <if test="userSex != null and userSex !=''">
+                and user_sex = #{userSex}
+            </if>
+        </where>
+        order by user_id desc
+        limit #{startRows,jdbcType=INTEGER},5
+    </select>
+
     <!--查询用户个数-->
     <select id="getRowCount" resultType="java.lang.Integer">
 		select count(*) from USER
@@ -121,20 +138,8 @@
                 user_role = #{userRole,jdbcType=VARCHAR}
             </if>
         </set>
-        where
-            user_id = #{userId,jdbcType=VARCHAR}
-    </update>
-
-    <update id="updateByPrimaryKey" parameterType="com.example.pojo.User">
-         update USER set
-			user_id = #{userId,jdbcType=VARCHAR},
-			card_type = #{cardType,jdbcType=VARCHAR},
-			user_name = #{userName,jdbcType=VARCHAR},
-			user_sex = #{userSex,jdbcType=VARCHAR},
-			user_age = #{userAge,jdbcType=VARCHAR},
-			user_role = #{userRole,jdbcType=VARCHAR}
-		 where
-			card_no = #{cardNo,jdbcType=VARCHAR}
+        where 1 = 1
+        and user_id = #{userId,jdbcType=VARCHAR}
     </update>
 
 </mapper>

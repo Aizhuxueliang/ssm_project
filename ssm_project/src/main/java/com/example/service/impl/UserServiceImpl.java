@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.example.pojo.User;
@@ -18,6 +19,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> queryUserPage(Integer startRows) {
         return userMapper.queryUserPage(startRows);
+    }
+
+    @Override
+    public List<User> selectUserPage(String userName, String userSex, Integer startRows) {
+        return userMapper.selectUserPage(userName, userSex, startRows);
     }
 
     @Override
