@@ -25,10 +25,16 @@
     </el-form>
 
     <el-table
+      ref="multipleTable"
       :data="tableData"
-      border="true"
+      border
       highlight-current-row
-      style="width: 100%">
+      style="width: 100%"
+      @selection-change="handleSelectionDelete">
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
       <el-table-column
         label="用户编号">
         <template slot-scope="scope">
@@ -236,7 +242,8 @@
         pageSize: 5,
         currentPage: 1,
         total: 0,
-        disablePage: false
+        disablePage: false,
+        multipleSelection: []
       };
     },
 
@@ -377,6 +384,10 @@
             this.emptyUserData();
           })
           .catch(_ => {});
+      },
+
+      handleSelectionDelete(val) {
+        this.multipleSelection = val;
       },
 
       /**

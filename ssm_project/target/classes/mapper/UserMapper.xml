@@ -43,7 +43,7 @@
 
     <!--查询用户个数-->
     <select id="getRowCount" resultType="java.lang.Integer">
-		select count(*) from USER
+		select count(*) from user
         <where>
             <if test="userName != null and userName !=''">
                 and user_name like concat('%', #{userName}, '%')
@@ -65,63 +65,6 @@
         delete from user
         where user_id = #{userId,jdbcType=VARCHAR}
     </delete>
-
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-        select
-        <include refid="Base_Column_List" />
-        from user
-        where user_id = #{userId,jdbcType=INTEGER}
-    </select>
-
-    <insert id="insertSelective" parameterType="com.example.pojo.User" >
-        insert into user
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="userId != null" >
-                user_id,
-            </if>
-            <if test="cardNo != null" >
-                card_no,
-            </if>
-             <if test="cardType != null" >
-                card_type,
-            </if>
-            <if test="userName != null" >
-                user_name,
-            </if>
-            <if test="userSex != null" >
-                user_sex,
-            </if>
-            <if test="userAge != null" >
-                user_age,
-            </if>
-            <if test="userRole != null" >
-                user_role,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="userId != null" >
-                user_id = #{userId,jdbcType=VARCHAR},
-            </if>
-            <if test="cardNo != null" >
-                card_no = #{cardType,jdbcType=VARCHAR},
-            </if>
-            <if test="cardType != null" >
-                card_type = #{cardType,jdbcType=VARCHAR},
-            </if>
-            <if test="userName != null" >
-                user_name = #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="userSex != null" >
-                user_sex = #{userSex,jdbcType=VARCHAR},
-            </if>
-            <if test="userAge != null" >
-                user_age = #{userAge,jdbcType=VARCHAR},
-            </if>
-            <if test="userRole != null" >
-                user_role = #{userRole,jdbcType=VARCHAR}
-            </if>
-        </trim>
-    </insert>
 
     <!--根据 user_id 更新用户信息-->
     <update id="updateUserById" parameterType="com.example.pojo.User" >
