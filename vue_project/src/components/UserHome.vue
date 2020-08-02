@@ -1,27 +1,19 @@
 <template>
   <div>
-    <el-form :inline="true" class="demo-form-inline">
+    <el-form :inline="true" class="demo-form-inline" >
       <el-form-item>
         <el-input
-          v-model="search"
-          class="search_name"
+          v-model="search1"
           size="mini"
-          placeholder="输入姓名查询">
+          placeholder="输入姓名查询" v-on:input="handleSearch()">
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button
-          type="text"
-          @click="onSearch()"
-          class="el-icon-search">查询
-        </el-button>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          class="el-icon-refresh"
-          type="text"
-          @click="refreshData">刷新
-        </el-button>
+        <el-select size="mini" v-model="search2" v-on:change="handleSearch()">
+          <el-option label="请选择性别" value=""></el-option>
+          <el-option label="男" value="男"></el-option>
+          <el-option label="女" value="女"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -34,10 +26,11 @@
 
     <el-table
       :data="tableData"
+      border="true"
       highlight-current-row
-      border>
+      style="width: 100%">
       <el-table-column
-        label="编号">
+        label="用户编号">
         <template slot-scope="scope">
           <span>{{ scope.row.userId }}</span>
         </template>
@@ -93,13 +86,11 @@
         <template slot-scope="scope">
           <el-button
             type="text"
-            size="mini"
             icon="el-icon-edit"
             @click="handleEdit(scope.$index, scope.row)">编辑
           </el-button>
           <el-button
             type="text"
-            size="mini"
             icon="el-icon-delete"
             @click="handleDelete(scope.$index, scope.row)">删除
           </el-button>
@@ -238,7 +229,8 @@
         },
         rules: {},
         tableData: [],
-        search: '',
+        search1: '',
+        search2: '',
         dialogAdd: false,
         dialogUpdate: false,
         pageSize: 5,
@@ -249,7 +241,16 @@
     },
 
     created() {
-      this.axios.post('/ssm_project_war_exploded/user/queryUserPage').then(response =>
+      let postData1 = this.qs.stringify({
+        page: this.currentPage,
+        userName: this.search1,
+        userSex: this.search2
+      });
+      this.axios({
+        method: 'post',
+        url: '/ssm_project_war_exploded/user/selectUserPage',
+        data: postData1
+      }).then(response =>
       {
         this.tableData = response.data;
       }).catch(error =>
@@ -257,7 +258,15 @@
         console.log(error);
       });
 
-      this.axios.post('/ssm_project_war_exploded/user/getRowCount').then(response =>
+      let postData = this.qs.stringify({
+        userName: this.search1,
+        userSex: this.search2
+      });
+      this.axios({
+        method: 'post',
+        url:'/ssm_project_war_exploded/user/getRowCount',
+        data:postData
+      }).then(response =>
       {
         this.total = response.data;
       }).catch(error =>
@@ -274,12 +283,14 @@
       handlePageChange() {
         //console.log(`当前页: ${this.currentPage}`);
         let postData = this.qs.stringify({
-          page: this.currentPage
+          page: this.currentPage,
+          userName: this.search1,
+          userSex: this.search2
         });
         this.axios({
           method: 'post',
-          url:'/ssm_project_war_exploded/user/queryUserPage',
-          data:postData
+          url: '/ssm_project_war_exploded/user/selectUserPage',
+          data: postData
         }).then(response =>
         {
           this.tableData = response.data;
@@ -309,8 +320,8 @@
         });
         this.axios({
           method: 'post',
-          url:'/ssm_project_war_exploded/user/createUser',
-          data:postData
+          url: '/ssm_project_war_exploded/user/createUser',
+          data: postData
         }).then(response =>
         {
           this.handlePageChange();
@@ -331,13 +342,26 @@
        * 统计用户个数
        */
       getRowCount() {
-        this.axios.post('/ssm_project_war_exploded/user/getRowCount').then(response =>
+        let postData = this.qs.stringify({
+          userName: this.search1,
+          userSex: this.search2
+        });
+        this.axios({
+          method: 'post',
+          url: '/ssm_project_war_exploded/user/getRowCount',
+          data: postData
+        }).then(response =>
         {
           this.total = response.data;
         }).catch(error =>
         {
           console.log(error);
         });
+      },
+
+      handleSearch() {
+       this.handlePageChange();
+       this.getRowCount();
       },
 
       handleEdit(index, row) {
@@ -389,8 +413,8 @@
           });
           this.axios({
             method: 'post',
-            url:'/ssm_project_war_exploded/user/deleteUserById',
-            data:postData
+            url: '/ssm_project_war_exploded/user/deleteUserById',
+            data: postData
           }).then(response =>
           {
             this.getRowCount();
@@ -438,8 +462,8 @@
         });
         this.axios({
           method: 'post',
-          url:'/ssm_project_war_exploded/user/updateUserById',
-          data:postData
+          url: '/ssm_project_war_exploded/user/updateUserById',
+          data: postData
         }).then(response =>
         {
           this.handlePageChange();
@@ -454,28 +478,6 @@
         {
           console.log(error);
         });
-      },
-
-      onSearch() {
-        let postData = this.qs.stringify({
-          userName: this.search
-        });
-        this.axios({
-          method: 'post',
-          url: '/ListByName',
-          data: postData
-        }).then(response =>
-        {
-          this.tableData = response.data;
-          this.disablePage = true;
-        }).catch(error =>
-        {
-          console.log(error);
-        });
-      },
-
-      refreshData() {
-        location.reload();
       }
     },
 

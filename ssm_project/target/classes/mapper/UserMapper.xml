@@ -31,7 +31,7 @@
         from user
         <where>
             <if test="userName != null and userName !=''">
-                and userName like concat('%', #{userName}, '%')
+                and user_name like concat('%', #{userName}, '%')
             </if>
             <if test="userSex != null and userSex !=''">
                 and user_sex = #{userSex}
@@ -44,6 +44,14 @@
     <!--查询用户个数-->
     <select id="getRowCount" resultType="java.lang.Integer">
 		select count(*) from USER
+        <where>
+            <if test="userName != null and userName !=''">
+                and user_name like concat('%', #{userName}, '%')
+            </if>
+            <if test="userSex != null and userSex !=''">
+                and user_sex = #{userSex}
+            </if>
+        </where>
 	</select>
 
     <!--添加用户信息-->

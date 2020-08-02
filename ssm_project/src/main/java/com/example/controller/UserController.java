@@ -39,8 +39,8 @@ public class UserController {
 
     @RequestMapping("/getRowCount")
     @ResponseBody
-    public Integer getRowCount() {
-        return userService.getRowCount();
+    public Integer getRowCount(String userName, String userSex) {
+        return userService.getRowCount(userName, userSex);
     }
 
     @RequestMapping("/createUser")

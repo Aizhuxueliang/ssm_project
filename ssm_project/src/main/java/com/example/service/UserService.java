@@ -26,9 +26,11 @@ public interface UserService {
 
     /**
      * 查询 User 个数
-     * @return 返回码
+     * @param userName
+     * @param userSex
+     * @return
      */
-    Integer getRowCount();
+    Integer getRowCount(@Param("userName")String userName, @Param("userSex")String userSex);
 
     /**
      * 添加 User

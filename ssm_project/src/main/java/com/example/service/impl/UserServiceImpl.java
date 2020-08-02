@@ -27,8 +27,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer getRowCount() {
-        return userMapper.getRowCount();
+    public Integer getRowCount(String userName, String userSex) {
+        return userMapper.getRowCount(userName, userSex);
     }
 
     @Override
