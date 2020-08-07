@@ -1,7 +1,6 @@
 package com.example.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import com.example.pojo.User;
 import org.apache.ibatis.annotations.Param;

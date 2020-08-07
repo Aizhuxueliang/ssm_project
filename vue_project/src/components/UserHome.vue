@@ -24,7 +24,7 @@
       </el-form-item>
       <el-form-item>
         <el-button
-          class="el-icon-circle-plus-outline"
+          class="el-icon-delete"
           type="text"
           @click="handleDeleteList()">删除
         </el-button>
