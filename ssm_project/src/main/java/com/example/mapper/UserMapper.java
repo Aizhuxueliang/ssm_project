@@ -46,6 +46,13 @@ public interface UserMapper {
     Integer deleteUserById(String userId);
 
     /**
+     * 根据 userId 批量删除用户
+     * @param userIds
+     * @return
+     */
+    Integer deleteUserByIdList(@Param("list") List userIds);
+
+    /**
      * 根据 userId 更新用户
      * @return 返回码
      */

@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.pojo.User;
 import org.apache.ibatis.annotations.Param;
@@ -43,6 +44,13 @@ public interface UserService {
      * @return 返回码
      */
     Integer deleteUserById(String userId);
+
+    /**
+     * 根据 userId 批量删除用户
+     * @param userIds
+     * @return
+     */
+    Integer deleteUserByIdList(@Param("list") List userIds);
 
     /**
      * 根据 userId 更新用户

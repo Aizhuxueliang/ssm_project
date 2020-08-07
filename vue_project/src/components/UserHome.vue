@@ -22,6 +22,13 @@
           @click="dialogAdd = true">添加
         </el-button>
       </el-form-item>
+      <el-form-item>
+        <el-button
+          class="el-icon-circle-plus-outline"
+          type="text"
+          @click="handleDeleteList()">删除
+        </el-button>
+      </el-form-item>
     </el-form>
 
     <el-table
@@ -386,10 +393,6 @@
           .catch(_ => {});
       },
 
-      handleSelectionDelete(val) {
-        this.multipleSelection = val;
-      },
-
       /**
        * 清空绑定数据
        */
@@ -425,6 +428,62 @@
           this.axios({
             method: 'post',
             url: '/ssm_project_war_exploded/user/deleteUserById',
+            data: postData
+          }).then(response =>
+          {
+            this.getRowCount();
+            if(this.total%5==1 && this.currentPage >= 1){
+              if(this.total/5<this.currentPage){
+                this.currentPage = this.currentPage-1;
+              }
+            }
+            this.handlePageChange();
+
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            //console.log(response);
+          }).catch(error =>
+          {
+            console.log(error);
+          });
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+
+      handleSelectionDelete(val) {
+        this.multipleSelection = val;
+      },
+
+      /**
+       * 根据 userId 批量删除用户
+       */
+      handleDeleteList() {
+        let userIds = "";
+        this.multipleSelection.forEach(item => {
+          userIds += item.userId + ',';
+        })
+        console.log(userIds);
+        // let userIds= this.multipleSelection.map(item => item.userId).join()
+
+        this.$confirm('删除操作, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let postData = this.qs.stringify({
+            userIdList: userIds
+          });
+          console.log(postData);
+          this.axios({
+            method: 'post',
+            url: '/ssm_project_war_exploded/user/deleteUserByIdList',
             data: postData
           }).then(response =>
           {

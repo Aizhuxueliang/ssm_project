@@ -66,6 +66,12 @@
         where user_id = #{userId,jdbcType=VARCHAR}
     </delete>
 
+
+    <!--根据 user_id 批量删除用户-->
+    <delete id="deleteUserByIdList" parameterType="java.util.List">
+        delete from user where user_id in <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">#{item,jdbcType=VARCHAR}</foreach>
+    </delete>
+
     <!--根据 user_id 更新用户信息-->
     <update id="updateUserById" parameterType="com.example.pojo.User" >
         update user

@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -55,6 +56,19 @@ public class UserController {
     @ResponseBody
     public Integer deleteUserById(String userId) {
         return userService.deleteUserById(userId);
+    }
+
+    @RequestMapping(value = "/deleteUserByIdList")
+    @ResponseBody
+    public Integer deleteUserByIdList(String userIdList) {
+        String userIdListSub = userIdList.substring(0, userIdList.length()-1);
+//        String[] userIds = userIdList.split(",");
+
+        List userIds = new ArrayList();
+        for (String userIdStr: userIdListSub.split(",")){
+            userIds.add(userIdStr.trim());
+        }
+        return userService.deleteUserByIdList(userIds);
     }
 
     @RequestMapping("/updateUserById")
