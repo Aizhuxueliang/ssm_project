@@ -56,7 +56,7 @@
 
     <!--添加用户信息-->
     <insert id="createUser" parameterType="com.example.pojo.User" >
-        insert into User(user_id, card_type, card_no, user_name, user_sex, user_age, user_role)
+        insert into User(<include refid="Base_Column_List" />)
 		values(#{userId}, #{cardType}, #{cardNo}, #{userName}, #{userSex}, #{userAge}, #{userRole})
     </insert>
 
