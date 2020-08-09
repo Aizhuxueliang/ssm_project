@@ -364,8 +364,24 @@
             },
 
             handleSearch() {
-                this.handlePageChange();
-                this.getRowCount();
+                let postData = this.qs.stringify({
+                    userName: this.search1,
+                    userSex: this.search2
+                });
+                this.axios({
+                    method: 'post',
+                    url: '/ssm_project_war_exploded/user/getRowCount',
+                    data: postData
+                }).then(response => {
+                    this.total = response.data;
+                    let countPage = Math.ceil(this.total/5);
+                    if (countPage <= this.currentPage) {
+                        this.currentPage = countPage;
+                    }
+                    this.handlePageChange();
+                }).catch(error => {
+                    console.log(error);
+                });
             },
 
             handleEdit(index, row) {
