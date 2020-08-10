@@ -1,5 +1,27 @@
-# Vue SSM搭建一个简单的Demo含增删改查(CRUD)、分页、批量功能
+# Vue SSM搭建一个简单的Demo前后端分离含增删改查(CRUD)、分页、批量功能
+### 前言
+最近想复习一下SSM，所以就搭建了这个小DEMO，轻车熟路，个人认为在只用到SSM框架的前提下，这样做是最简洁的搭建方式了。写这篇博客也是复习的一部分，也想收获些意料之外的XXXX。
+### 用到的技术和开发工具
+**前端**
+- 开发工具：WebStorm
+- 开发框架：vue + axios + elementUI
+- 包管理工具: npm
+- 打包工具：webpack
 
+**后端**
+- 开发工具：IDEA
+- 开发框架：springMVC + spring + mybatis
+- 打包工具：maven
+- 数据库： MySQL
+### 需求及功能
+- 增删改查（CRUD）
+- 分页
+- 批量删除
+- 前后端分离
+
+### 后台开发环境搭建
+File->New->Project…->maven->.......
+### 后台代码
 1. ssm_project/src/main/resources/applicationContext.xml
 
 ```
@@ -863,6 +885,12 @@ INSERT INTO `user` VALUES ('15968954638794962', '身份证', '343343554654', '�
 
 SET FOREIGN_KEY_CHECKS = 1;
 ```
+**后台到这里就写完了，结构如下：**
+
+### 前台开发环境搭建
+
+### 前台代码
+
 15. vue_project/src/App.vue
 
 ```
@@ -1494,8 +1522,75 @@ export default new Router({
   ]
 })
 ```
+**前台结构如下：**
+
+### 前后台整合
+vue_project/config/index.js
+
+```
+dev: {
+
+    // Paths
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/',
+    proxyTable: {
+      '/': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/': ''
+        }
+      },
+      '/ws/*': {
+        target: 'ws://127.0.0.1:8080',
+        ws: true
+      }
+    },
 
 
 
+    // Various Dev Server settings
+    host: 'localhost', // can be overwritten by process.env.HOST
+    port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    autoOpenBrowser: false,
+    errorOverlay: true,
+    notifyOnErrors: true,
+    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
+    // Use Eslint Loader?
+    // If true, your code will be linted during bundling and
+    // linting errors and warnings will be shown in the console.
+    useEslint: true,
+    // If true, eslint errors and warnings will also be shown in the error overlay
+    // in the browser.
+    showEslintErrorsInOverlay: false,
 
+    /**
+     * Source Maps
+     */
+
+    // https://webpack.js.org/configuration/devtool/#development
+    devtool: 'cheap-module-eval-source-map',
+
+    // If you have problems debugging vue-files in devtools,
+    // set this to false - it *may* help
+    // https://vue-loader.vuejs.org/en/options.html#cachebusting
+    cacheBusting: true,
+
+    cssSourceMap: true
+  },
+```
+### 实现效果
+
+### 值得扩展的功能或方向
+1. 用户登录拦截功能：前端需要封装一下axios，后端需引入shiro；
+2. 增加动态菜单，根据用户角色；
+3. excel文件批量导入导出用户数据功能：还没想好用啥插件；
+4. 引入富文本编辑器：主要为了再建一张表让业务复杂些；
+5. 去大厂的开放平台找点牛逼的API引到project里；
+### 结语
+有问题请留言
+
+CSDN：
+博客园：
+GitHub：
