@@ -1,3 +1,4 @@
+
 # Vue SSM搭建一个简单的Demo前后端分离含增删改查(CRUD)、分页、批量功能
 ### 前言
 最近想复习一下SSM，所以就搭建了这个小DEMO，轻车熟路，个人认为在只用到SSM框架的前提下，这样做是最简洁的搭建方式了。写这篇博客也是复习的一部分，也想收获些意料之外的XXXX。
@@ -20,11 +21,11 @@
 - 前后端分离
 
 ### 后台开发环境搭建
-File->New->Project…->maven->.......
+File->New->Project…->maven->.......百度
 ### 后台代码
 1. ssm_project/src/main/resources/applicationContext.xml
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans
         xmlns="http://www.springframework.org/schema/beans"
@@ -103,7 +104,7 @@ File->New->Project…->maven->.......
 ```
 2. ssm_project/src/main/resources/applicationContext-mvc.xml
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans
         xmlns="http://www.springframework.org/schema/beans"
@@ -141,7 +142,7 @@ File->New->Project…->maven->.......
 ```
 3. ssm_project/src/main/resources/mybatis-config.xml
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
@@ -164,7 +165,7 @@ File->New->Project…->maven->.......
 ```
 4. ssm_project/src/main/resources/db.properties
 
-```
+```properties
 jdbc.driver=com.mysql.jdbc.Driver
 jdbc.url=jdbc:mysql://localhost:3306/ssm_example?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
 jdbc.username=root
@@ -172,7 +173,7 @@ jdbc.password=123
 ```
 5. ssm_project/src/main/resources/log4j.properties
 
-```
+```properties
 # Global logging configuration
 log4j.rootLogger=DEBUG,Console
 
@@ -185,7 +186,7 @@ log4j.logger.org.apache=INFO
 ```
 6. ssm_project/src/main/webapp/WEB-INF/web.xml
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee"
@@ -246,7 +247,7 @@ log4j.logger.org.apache=INFO
 ```
 7. ssm_project/pom.xml
 
-```
+```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
@@ -400,7 +401,7 @@ log4j.logger.org.apache=INFO
 ```
 8. ssm_project/src/main/java/com/example/pojo/User.java
 
-```
+```java
 package com.example.pojo;
 
 public class User {
@@ -472,7 +473,7 @@ public class User {
 
 9. ssm_project/src/main/resources/mapper/UserMapper.xml
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.UserMapper" >
@@ -578,7 +579,7 @@ public class User {
 ```
 10. ssm_project/src/main/java/com/example/mapper/UserMapper.java
 
-```
+```java
 package com.example.mapper;
 
 import java.util.List;
@@ -643,7 +644,7 @@ public interface UserMapper {
 ```
 11. ssm_project/src/main/java/com/example/service/UserService.java
 
-```
+```java
 package com.example.service;
 
 import java.util.List;
@@ -707,7 +708,7 @@ public interface UserService {
 ```
 12. ssm_project/src/main/java/com/example/service/impl/UserServiceImpl.java
 
-```
+```java
 package com.example.service.impl;
 
 import java.util.List;
@@ -766,7 +767,7 @@ public class UserServiceImpl implements UserService {
 ```
 13. ssm_project/src/main/java/com/example/controller/UserController.java
 
-```
+```java
 package com.example.controller;
 
 import java.util.ArrayList;
@@ -851,7 +852,7 @@ public class UserController {
 ```
 14. SQL
 
-```
+```sql
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
@@ -886,14 +887,16 @@ INSERT INTO `user` VALUES ('15968954638794962', '身份证', '343343554654', '�
 SET FOREIGN_KEY_CHECKS = 1;
 ```
 **后台到这里就写完了，结构如下：**
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200810225636464.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
 
 ### 前台开发环境搭建
+![SSM_list](https://img-blog.csdnimg.cn/20200810223437952.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
 
 ### 前台代码
 
 15. vue_project/src/App.vue
 
-```
+```html
 <template>
     <el-row type="flex" justify="center">
         <el-col :xs="24" :sm="22" :md="20" :lg="20" :xl="18">
@@ -925,7 +928,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 ```
 16. vue_project/src/main.js
 
-```
+```js
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
@@ -952,7 +955,7 @@ new Vue({
 ```
 17. vue_project/src/components/UserHome.vue
 
-```
+```html
 <template>
     <div>
         <el-form :inline="true" class="demo-form-inline">
@@ -1499,7 +1502,7 @@ new Vue({
 ```
 18. vue_project/src/router/index.js
 
-```
+```js
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld'
@@ -1523,11 +1526,12 @@ export default new Router({
 })
 ```
 **前台结构如下：**
+![前台结构](https://img-blog.csdnimg.cn/20200810225426694.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
 
 ### 前后台整合
 vue_project/config/index.js
 
-```
+```js
 dev: {
 
     // Paths
@@ -1581,6 +1585,16 @@ dev: {
   },
 ```
 ### 实现效果
+**视频**
+[video(video-Wq1iRAuM-1597070693731)(type-bilibili)(url-https://player.bilibili.com/player.html?aid=499139068)(image-https://ss.csdn.net/p?http://i1.hdslb.com/bfs/archive/2de6a570a4bd4399af72292c671a454784aa0c35.jpg)(title-Vue SSM搭建一个简单的Demo含增删改查(CRUD)、分页、批量功能)]
+**图片**
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200810224334554.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200810224334582.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200810224334558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200810224334563.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200810224334553.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200810224334550.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200810224334550.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW55dXd1eWk=,size_16,color_FFFFFF,t_70)
 
 ### 值得扩展的功能或方向
 1. 用户登录拦截功能：前端需要封装一下axios，后端需引入shiro；
@@ -1592,5 +1606,6 @@ dev: {
 有问题请留言
 
 CSDN：
-博客园：
-GitHub：
+博客园：[https://blog.csdn.net/jianyuwuyi/article/details/107924066](https://blog.csdn.net/jianyuwuyi/article/details/107924066)
+GitHub：[https://github.com/Aizhuxueliang/ssm_project](https://github.com/Aizhuxueliang/ssm_project)
+
